@@ -3,7 +3,7 @@
 SERVICE=$1
 echo "Configuring service $SERVICE"
 
-files="Dockerfile kube.yml deploy.env docker-compose.yml settings.gradle src/main/java/org/servantscode/hello/rest/ServiceIdentificationFilter.java"
+files="Dockerfile kube.yml deploy.env settings.gradle src/main/java/org/servantscode/hello/rest/ServiceIdentificationFilter.java src/main/java/org/servantscode/hello/rest/HelloSvc.java"
 
 for file in $files; do 
   echo "Updating $file"
