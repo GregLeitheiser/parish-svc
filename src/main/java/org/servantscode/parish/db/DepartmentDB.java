@@ -10,19 +10,26 @@ import org.servantscode.parish.Department;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class DepartmentDB extends DBAccess {
     private static final Logger LOG = LogManager.getLogger(DepartmentDB.class);
 
     private SearchParser<Department> searchParser;
+    private static HashMap<String, String> FIELD_MAP = new HashMap<>(4);
+    static {
+        FIELD_MAP.put("departmentHeadName", "p.name");
+        FIELD_MAP.put("name", "d.name");
+    }
 
     public DepartmentDB() {
-        this.searchParser = new SearchParser<>(Department.class, "name");
+        this.searchParser = new SearchParser<>(Department.class, "name", FIELD_MAP);
     }
 
     public int getCount(String search) {
-        QueryBuilder query = count().from("departments").search(searchParser.parse(search)).inOrg();
+        QueryBuilder query = count().from("departments d", "people p").where("d.department_head_id = p.id")
+                .search(searchParser.parse(search)).inOrg("d.org_id").inOrg("p.org_id");
         try (Connection conn = getConnection();
              PreparedStatement stmt = query.prepareStatement(conn);
              ResultSet rs = stmt.executeQuery()) {
@@ -35,8 +42,13 @@ public class DepartmentDB extends DBAccess {
         return 0;
     }
 
+    private QueryBuilder baseQuery() {
+        return select("d.*", "p.name AS department_head_name").from("departments d", "people p")
+                .where("d.department_head_id = p.id").inOrg("d.org_id").inOrg("p.org_id");
+    }
+
     public Department getDepartment(int id) {
-        QueryBuilder query = selectAll().from("departments").withId(id).inOrg();
+        QueryBuilder query = baseQuery().withId(id);
         try (Connection conn = getConnection();
              PreparedStatement stmt = query.prepareStatement(conn);
         ) {
@@ -48,7 +60,7 @@ public class DepartmentDB extends DBAccess {
     }
 
     public List<Department> getDepartments(String search, String sortField, int start, int count) {
-        QueryBuilder query = selectAll().from("departments").search(searchParser.parse(search)).inOrg()
+        QueryBuilder query = baseQuery().search(searchParser.parse(search))
                 .sort(sortField).limit(count).offset(start);
         try ( Connection conn = getConnection();
               PreparedStatement stmt = query.prepareStatement(conn)
@@ -123,6 +135,7 @@ public class DepartmentDB extends DBAccess {
                 r.setId(rs.getInt("id"));
                 r.setName(rs.getString("name"));
                 r.setDepartmentHeadId(rs.getInt("department_head_id"));
+                r.setDepartmentHeadName(rs.getString("department_head_name"));
                 departments.add(r);
             }
             return departments;
