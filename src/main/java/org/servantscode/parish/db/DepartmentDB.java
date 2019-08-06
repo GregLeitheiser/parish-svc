@@ -48,7 +48,7 @@ public class DepartmentDB extends DBAccess {
     }
 
     public Department getDepartment(int id) {
-        QueryBuilder query = baseQuery().withId(id);
+        QueryBuilder query = baseQuery().where("d.id=?", id);
         try (Connection conn = getConnection();
              PreparedStatement stmt = query.prepareStatement(conn);
         ) {
