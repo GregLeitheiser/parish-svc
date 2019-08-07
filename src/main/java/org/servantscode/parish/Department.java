@@ -5,7 +5,6 @@ public class Department {
     private String name;
     private int departmentHeadId;
     private String departmentHeadName;
-    private int orgId;
 
     public Department() {}
 
@@ -21,7 +20,4 @@ public class Department {
 
     public String getDepartmentHeadName() { return departmentHeadName; }
     public void setDepartmentHeadName(String departmentHeadName) { this.departmentHeadName = departmentHeadName; }
-
-    public int getOrgId() { return orgId; }
-    public void setOrgId(int orgId) { this.orgId = orgId; }
 }
