@@ -25,7 +25,7 @@ public class CategorySvc extends SCServiceBase {
     public PaginatedResponse<Category> getCategories(@QueryParam("start") @DefaultValue("0") int start,
                                                         @QueryParam("count") @DefaultValue("10") int count,
                                                         @QueryParam("sort_field") @DefaultValue("id") String sortField,
-                                                        @QueryParam("partial_name") @DefaultValue("") String nameSearch) {
+                                                        @QueryParam("search") @DefaultValue("") String nameSearch) {
 
         verifyUserAccess("category.list");
         try {

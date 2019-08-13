@@ -25,7 +25,7 @@ public class DepartmentSvc extends SCServiceBase {
     public PaginatedResponse<Department> getDepartments(@QueryParam("start") @DefaultValue("0") int start,
                                                         @QueryParam("count") @DefaultValue("10") int count,
                                                         @QueryParam("sort_field") @DefaultValue("id") String sortField,
-                                                        @QueryParam("partial_name") @DefaultValue("") String nameSearch) {
+                                                        @QueryParam("search") @DefaultValue("") String nameSearch) {
 
         verifyUserAccess("department.list");
         try {
