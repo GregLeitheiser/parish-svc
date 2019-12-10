@@ -49,6 +49,16 @@ public class ParishSvc extends SCServiceBase {
         }
     }
 
+    @GET @Path("/org/{id}") @Produces(MediaType.APPLICATION_JSON)
+    public Parish getParishByOrgId(@PathParam("id") int orgId) {
+        try {
+            return db.getParishByOrgId(orgId);
+        } catch (Throwable t) {
+            LOG.error("Retrieving parish failed:", t);
+            throw t;
+        }
+    }
+
     @GET @Path("/active") @Produces(MediaType.APPLICATION_JSON)
     public Parish getActiveParish() {
         try {
