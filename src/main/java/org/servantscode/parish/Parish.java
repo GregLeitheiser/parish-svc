@@ -13,6 +13,7 @@ public class Parish {
     private String website;
     private String phoneNumber;
     private Identity pastor;
+    private int fiscalYearStartMonth;
 
     // ----- Accessors -----
     public int getId() { return id; }
@@ -41,4 +42,7 @@ public class Parish {
 
     public Identity getPastor() { return pastor; }
     public void setPastor(Identity pastor) { this.pastor = pastor; }
+
+    public int getFiscalYearStartMonth() { return fiscalYearStartMonth; }
+    public void setFiscalYearStartMonth(int fiscalYearStartMonth) { this.fiscalYearStartMonth = fiscalYearStartMonth; }
 }

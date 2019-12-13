@@ -43,8 +43,11 @@ public class DBUpgrade extends AbstractDBUpgrade {
                     "website TEXT, " +
                     "pastor_name TEXT, " +
                     "pastor_id INTEGER REFERENCES people(id) ON DELETE SET NULL, " +
+                    "fy_start_month INTEGER DEFAULT 1, " +
                     "org_id INTEGER references organizations(id) ON DELETE SET NULL)");
             runSql("INSERT INTO parishes(name, org_id) SELECT name, id from organizations");
         }
+
+        ensureColumn("parishes", "fy_start_month", "INTEGER DEFAULT 1");
     }
 }

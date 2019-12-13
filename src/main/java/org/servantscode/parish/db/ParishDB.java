@@ -60,6 +60,7 @@ public class ParishDB extends EasyDB<Parish> {
                 .value("website", parish.getWebsite())
                 .value("pastor_name", parish.getPastor().getName())
                 .value("pastor_id", parish.getPastor().getId())
+                .value("fy_start_month", parish.getFiscalYearStartMonth())
                 .value("org_id", parish.getOrgId());
         if(!create(cmd))
             throw new RuntimeException("Could not create parish record");
@@ -80,6 +81,7 @@ public class ParishDB extends EasyDB<Parish> {
                 .value("website", parish.getWebsite())
                 .value("pastor_name", parish.getPastor().getName())
                 .value("pastor_id", parish.getPastor().getId())
+                .value("fy_start_month", parish.getFiscalYearStartMonth())
                 .value("org_id", parish.getOrgId())
                 .withId(parish.getId());
         if(!update(cmd))
@@ -125,6 +127,7 @@ public class ParishDB extends EasyDB<Parish> {
         parish.setWebsite(rs.getString("website"));
         parish.setOrgId(rs.getInt("org_id"));
         parish.setPastor(new Identity(rs.getString("pastor_name"), rs.getInt("pastor_id")));
+        parish.setFiscalYearStartMonth(rs.getInt("fy_start_month"));
         return parish;
     }
 
